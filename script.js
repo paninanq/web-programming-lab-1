@@ -7,6 +7,17 @@ const products = [
 ];
 
 const productsGrid = document.getElementById('productsGrid');
+const cartIcon = document.getElementById('cartIcon');
+const cartCount = document.getElementById('cartCount');
+const cartModal = document.getElementById('cartModal');
+const closeCart = document.getElementById('closeCart');
+const cartItems = document.getElementById('cartItems');
+const cartTotal = document.getElementById('cartTotal');
+const checkoutBtn = document.getElementById('checkoutBtn');
+const orderForm = document.getElementById('orderForm');
+const closeForm = document.getElementById('closeForm');
+const orderFormElement = document.getElementById('orderFormElement');
+const orderSuccess = document.getElementById('orderSuccess');
 
 // Отображение товаров
 function renderProducts() {
@@ -146,6 +157,43 @@ cartIcon.addEventListener('click', () => {
 
 closeCart.addEventListener('click', () => {
     cartModal.style.display = 'none';
+});
+
+checkoutBtn.addEventListener('click', () => {
+    cartModal.style.display = 'none';
+    orderForm.style.display = 'flex';
+});
+
+closeForm.addEventListener('click', () => {
+    orderForm.style.display = 'none';
+});
+
+orderFormElement.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // В реальном приложении здесь была бы отправка данных на сервер
+    orderForm.style.display = 'none';
+    orderSuccess.style.display = 'block';
+    
+    // Очистка корзины после оформления заказа
+    cart = [];
+    updateCart();
+    saveCartToLocalStorage();
+    
+    // Скрытие сообщения об успехе через 3 секунды
+    setTimeout(() => {
+        orderSuccess.style.display = 'none';
+    }, 3000);
+});
+
+// Закрытие модальных окон при клике вне их области
+window.addEventListener('click', (e) => {
+    if (e.target === cartModal) {
+        cartModal.style.display = 'none';
+    }
+    if (e.target === orderForm) {
+        orderForm.style.display = 'none';
+    }
 });
         
 renderProducts();
