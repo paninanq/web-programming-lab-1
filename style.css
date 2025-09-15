@@ -288,3 +288,42 @@ header {
     z-index: 1001;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
+
+@media (max-width: 768px) {
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .cart-content, .form-content {
+        width: 95%;
+        margin: 10px;
+        padding: 1rem;
+    }
+    
+    .header-content {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .product-card {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .item-controls {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
