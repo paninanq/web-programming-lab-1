@@ -72,9 +72,17 @@ function updateCart() {
     const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
     cartCount.textContent = totalItems;
     
-    // Обновление списка товаров в корзине
+    // Обновляем состояние кнопки оформления заказа
+    updateCheckoutButton();
+    
     cartItems.innerHTML = '';
     let totalPrice = 0;
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="empty-cart">Корзина пуста</div>';
+        cartTotal.textContent = 'Итого: 0 руб.';
+        return;
+    }
     
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
@@ -100,7 +108,7 @@ function updateCart() {
     // Обновление общей суммы
     cartTotal.textContent = `Итого: ${totalPrice} руб.`;
     
-    // Добавление обработчиков событий для кнопок в корзине
+    // Добавление обработчиков событий...
     document.querySelectorAll('.quantity-btn.plus').forEach(button => {
         button.addEventListener('click', (e) => {
             const id = parseInt(e.target.getAttribute('data-id'));
@@ -121,6 +129,22 @@ function updateCart() {
             removeFromCart(id);
         });
     });
+}
+
+function updateCheckoutButton() {
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    
+    if (cart.length === 0) {
+        checkoutBtn.disabled = true;
+        checkoutBtn.style.opacity = '0.6';
+        checkoutBtn.style.cursor = 'not-allowed';
+        checkoutBtn.textContent = 'Корзина пуста';
+    } else {
+        checkoutBtn.disabled = false;
+        checkoutBtn.style.opacity = '1';
+        checkoutBtn.style.cursor = 'pointer';
+        checkoutBtn.textContent = 'Оформить заказ';
+    }
 }
 
 // Изменение количества товара
@@ -167,6 +191,20 @@ checkoutBtn.addEventListener('click', () => {
 closeForm.addEventListener('click', () => {
     orderForm.style.display = 'none';
 });
+
+// Обработка ошибок
+function validateForm() {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const address = document.getElementById('address').value;
+    const phone = document.getElementById('phone').value;
+    
+    if (!firstName || !lastName || !address || !phone) {
+        alert('Пожалуйста, заполните все поля');
+        return false;
+    }
+}
+
 
 orderFormElement.addEventListener('submit', (e) => {
     e.preventDefault();
